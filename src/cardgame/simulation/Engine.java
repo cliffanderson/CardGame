@@ -6,14 +6,16 @@ package cardgame.simulation;
 public abstract class Engine {
 
     public void draw(){
-        //call deck class
+        //LoadedDeck.pop();
     }
-
     public void shuffle(){
        //call deck class
     }
     public void play_card(){
         //put card from hand into play space
+    }
+    public void pass_turn(){
+        //change actitive player
     }
     Deck LoadedDeck;
     Player[] Players;
