@@ -19,10 +19,10 @@ public class SimpleServer {
 
         Socket clientSocket = serverSocket.accept();
 
-        DataOutputStream outputStream = new DataOutputStream(clientSocket.getOutputStream());
-        DataInputStream inputStream = new DataInputStream(clientSocket.getInputStream());
+       final DataOutputStream outputStream = new DataOutputStream(clientSocket.getOutputStream());
+       final DataInputStream inputStream = new DataInputStream(clientSocket.getInputStream());
 
-        BufferedReader serverKeyboard = new BufferedReader(new InputStreamReader(System.in));
+       final BufferedReader serverKeyboard = new BufferedReader(new InputStreamReader(System.in));
 
         //Thread for output to client.
         new Thread() {

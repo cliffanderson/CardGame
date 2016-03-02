@@ -7,7 +7,7 @@ public class SimpleClient{
 
     public static void main(String[] args) throws Exception {
         Socket socket = null;
-        String hostName = "localhost";
+        String hostName = "10.200.26.120";
         int portNumber = 50000;
 
         if (args.length == 0) {
@@ -18,10 +18,10 @@ public class SimpleClient{
             socket = new Socket(hostName, portNumber);
         }
 
-        DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-        DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+        final DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+        final DataInputStream inputStream = new DataInputStream(socket.getInputStream());
 
-        BufferedReader clientKeyboard = new BufferedReader(new InputStreamReader(System.in));
+        final BufferedReader clientKeyboard = new BufferedReader(new InputStreamReader(System.in));
 
         //Thread for output to server.
         new Thread() {
