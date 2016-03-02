@@ -4,12 +4,20 @@ package cardgame.simulation;
  * Created by lawrencew on 3/2/2016.
  */
 public class Pile<T> implements ListInterface<T>{
-    
-    private T[] list;
+
+    private Node head;
+    private Node tail;
     private int numberOfEntries;
 
-    public void add(T newEntry) {
+    public Pile() {
+        //tail = new Node();
+    }
 
+    public void add(T newEntry) {
+        Node newNode = new Node(newEntry);
+        tail.setNext(newNode);
+        tail = newNode;
+        numberOfEntries++;
     }
 
     public boolean add(int newPosition, T newEntry) {
@@ -55,5 +63,26 @@ public class Pile<T> implements ListInterface<T>{
         return (T[])obj;
     }
 
+    private class Node<T> {
 
+        public Node(T data) {
+            this.data = data;
+            NextNode = null;
+        }
+
+        public T getData() {
+            return data;
+        }
+
+        public Node<T> getNext() {
+            return NextNode;
+        }
+
+        public void setNext(Node<T> NextNode) {
+            this.NextNode = NextNode;
+        }
+
+        private Node<T> NextNode;
+        private T data;
+    }
 }
