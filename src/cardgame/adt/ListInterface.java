@@ -1,4 +1,4 @@
-package cardgame.simulation;
+package cardgame.adt;
 
 /**
  * Created by lawrencew on 3/2/2016.

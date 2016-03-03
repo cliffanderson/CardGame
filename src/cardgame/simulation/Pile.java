@@ -1,9 +1,11 @@
 package cardgame.simulation;
 
+import cardgame.adt.ListInterface;
+
 /**
  * Created by lawrencew on 3/2/2016.
  */
-public class Pile<T> implements ListInterface<T>{
+public class Pile<T> implements ListInterface<T> {
 
     private Node head;
     private Node tail;
