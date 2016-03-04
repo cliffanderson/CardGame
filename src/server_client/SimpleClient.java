@@ -2,12 +2,13 @@ package server_client;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class SimpleClient{
 
     public static void main(String[] args) throws Exception {
-        Socket socket = null;
-        String hostName = "10.200.26.120";
+        final Socket socket;
+        String hostName = "localhost";
         int portNumber = 50000;
 
         if (args.length == 0) {
@@ -28,10 +29,13 @@ public class SimpleClient{
             public void run() {
                 String output = null;
 
-                while (true) {
+                while (socket.isConnected()) {
                     try {
                         output = clientKeyboard.readLine();
                         outputStream.writeUTF(output);
+                    } catch (SocketException e) {
+                        System.out.println(e.getMessage() + " - Ending application due to server being down.");
+                        System.exit(-1);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -44,10 +48,13 @@ public class SimpleClient{
             public void run() {
                 String input = null;
 
-                while (true) {
+                while (socket.isConnected()) {
                     try {
                         input = inputStream.readUTF();
                         System.out.println(input);
+                    } catch (SocketException e) {
+                        System.out.println(e.getMessage() + " - Ending application due to server being down.");
+                        System.exit(-1);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
