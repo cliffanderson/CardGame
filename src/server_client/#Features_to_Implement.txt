@@ -1,0 +1,7 @@
+
+1.
+Instead of using numbers to refer to clients, use Strings that identify their username.
+
+2.
+Make it so that when a new client joins. It checks to see if the previous spots in the list are open or not.
+So essentially, you have to use a implementation of a ADT.
