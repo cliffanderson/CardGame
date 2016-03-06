@@ -4,6 +4,11 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/** Class that has the capabilities to act as a server, constantly accept multiple connections requests from clients, broadcast to those clients, and
+ * listen to input from those clients.
+ *
+ * */
+
 public class MultiClient_Server {
 
     private ServerSocket serverSocket;
@@ -14,7 +19,9 @@ public class MultiClient_Server {
     private ServerStatus status;
     private int numberConnections;
 
-    MultiClient_Server() throws IOException{
+    /** Setups the server with a default port number of 50000, and a max number of connections equal to 10.
+     * */
+    public MultiClient_Server() throws IOException{
         status = ServerStatus.RUNNING;
         numberConnections = 0;
 
@@ -25,28 +32,32 @@ public class MultiClient_Server {
         fromClientStreams = new DataInputStream[10];
     }
 
-    MultiClient_Server(int portNumber, int maxConnections) throws IOException{
+    /** Setups the server with a specified port number and a max number of connections possible.
+     * @param portNumber the port number that the server runs on.
+     * @param maxConnections the max number of connections possible for this server.
+     * */
+    public MultiClient_Server(int portNumber, int maxConnections) throws IOException{
         status = ServerStatus.RUNNING;
         numberConnections = 0;
 
-        serverSocket = new ServerSocket(50000);
+        serverSocket = new ServerSocket(portNumber);
 
         sockets = new Socket[maxConnections];
         toClientStreams = new DataOutputStream[maxConnections];
         fromClientStreams = new DataInputStream[maxConnections];
     }
 
-    public enum ServerStatus {RUNNING, SHUTTING_DOWN};
+    private enum ServerStatus {RUNNING, SHUTTING_DOWN};
 
     public static void main(String[] args) throws IOException {
 
         MultiClient_Server server = new MultiClient_Server(50000, 10);
 
         server.acceptConnections();
-        server.broadcastToClients("How are you doing client?");
+        server.handleClients();
     }
 
-    /** Accepts all connection requests by starting a new thread that constantly waits for requests.
+    /** Constantly accepts all connection requests by starting a new thread that waits for requests and accepts them.
      * */
     public void acceptConnections() throws IOException {
 
@@ -70,26 +81,96 @@ public class MultiClient_Server {
         }.start();
     }
 
-    /** Broadcasts to all clients connected to the server.
-     * @param message the message to be broadcast.
+    /** Constantly listens to clients, and broadcasts any messages from the client to all the clients connected to the server.
      * */
-    public void broadcastToClients(String message) {
+    public void handleClients() {
 
         new Thread() {
             public void run() {
+                int connectionsListeningTo = 0;
+
                 while (status == ServerStatus.RUNNING) {
                     try {
-                        for (int i = 0; i < numberConnections; i++) {
-                            toClientStreams[i].writeUTF(message);
+                        if (connectionsListeningTo < numberConnections) {
+                            int clientNumber = connectionsListeningTo;
+                            HandleClientThread thread = new HandleClientThread(clientNumber);
+                            thread.startThread();
+                            connectionsListeningTo++;
                         }
-                        Thread.sleep(10000);
-                    } catch (IOException e) {
-                        System.out.println("Exception: " + e.getMessage() + " in broadcastToClients().");
+
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
-                        System.out.println("Exception: " + e.getMessage() + " in broadcastToClients().");
+                        System.out.println("Exception: " + e.getMessage() + " in listenToClients().");
                     }
                 }
             }
         }.start();
+    }
+
+    public class HandleClientThread implements Runnable {
+
+        private int clientNumber;
+
+        HandleClientThread(int clientNumber) {
+            this.clientNumber = clientNumber;
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (status == ServerStatus.RUNNING) {
+                    String message = fromClientStreams[clientNumber].readUTF();
+                    broadcastClientMessage(message);
+                    //System.out.println(message);
+                }
+            } catch (IOException e) {
+                System.out.println("Exception: " + e.getMessage() + " in listenToClients().");
+            }
+        }
+
+        public void startThread() {
+            Thread aThread = new Thread(this);
+            aThread.start();
+        }
+    }
+
+    /** Broadcasts a client message once to every client connected to the server.
+     * */
+    private void broadcastClientMessage(String message) {
+        for (int i = 0; i < numberConnections; i++) {
+            try {
+                toClientStreams[i].writeUTF(message);
+            } catch (IOException e) {
+                System.out.println("Exception: " + e.getMessage() + " in broadClientMessage().");
+            }
+        }
+    }
+
+    /** Broadcasts a single message from the server to all clients
+     * @param message the message to be broadcast.
+     * */
+    public void broadcastServerMessage(String message) {
+        try {
+            for (int i = 0; i < numberConnections; i++) {
+                toClientStreams[i].writeUTF(message);
+            }
+            Thread.sleep(10000);
+        } catch (IOException e) {
+            System.out.println("Exception: " + e.getMessage() + " in broadcastToClients().");
+        } catch (InterruptedException e) {
+            System.out.println("Exception: " + e.getMessage() + " in broadcastToClients().");
+        }
+    }
+
+    /** Sends a message once to a specific client.
+     * @param clientNumber the specific client to broadcast to.
+     * @param message the message to be sent to the client.
+     * */
+    public void sendToClient(String message, int clientNumber) {
+        try {
+            toClientStreams[clientNumber].writeUTF(message);
+        } catch (IOException e) {
+            System.out.println("Exception: " + e.getMessage() + " in broadcastToClient().");
+        }
     }
 }
