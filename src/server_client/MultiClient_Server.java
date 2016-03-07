@@ -19,12 +19,14 @@ public class MultiClient_Server {
 
     private ServerStatus status;
     private int numberConnections;
+    private int connectionsListeningTo;
 
     /** Setups the server with a default port number of 50000.
      * */
     public MultiClient_Server() throws IOException{
         status = ServerStatus.RUNNING;
         numberConnections = 0;
+        connectionsListeningTo = 0;
 
         serverSocket = new ServerSocket(50000);
 
@@ -38,6 +40,7 @@ public class MultiClient_Server {
      * */
     public MultiClient_Server(int portNumber) throws IOException{
         status = ServerStatus.RUNNING;
+
         numberConnections = 0;
 
         serverSocket = new ServerSocket(portNumber);
@@ -59,13 +62,14 @@ public class MultiClient_Server {
 
     /** Constantly accepts all connection requests by starting a new thread that waits for requests and accepts them.
      * */
-    public void acceptConnections() throws IOException {
+    public void acceptConnections() {
 
         new Thread() {
             public void run() {
                 while (status == ServerStatus.RUNNING) {
                     try {
                         Socket clientSocket = null;
+
                         clientSocket = serverSocket.accept();
 
                         sockets.add(clientSocket);
@@ -88,84 +92,110 @@ public class MultiClient_Server {
 
         new Thread() {
             public void run() {
-                int connectionsListeningTo = 0;
-
                 while (status == ServerStatus.RUNNING) {
                     try {
                         if (connectionsListeningTo < numberConnections) {
+
                             int clientNumber = connectionsListeningTo;
-                            HandleClientThread thread = new HandleClientThread(clientNumber);
+
+                            HandleClientThread thread = new HandleClientThread(
+                                    clientNumber,
+                                    "Anon",
+                                    fromClientStreams.get(clientNumber),
+                                    toClientStreams.get(clientNumber),
+                                    sockets.get(clientNumber));
+
                             thread.startThread();
+
                             connectionsListeningTo++;
                         }
 
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
-                        System.out.println("Exception: " + e.getMessage() + " in listenToClients().");
+                        System.out.println("Exception: " + e.getMessage() + " in handleClients().");
                     }
                 }
             }
         }.start();
     }
 
-    /** Inner class thread that is used by handleClients() to handle reading messages from clients and broadcast those messages to all clients.
-     * */
+    /** Inner class thread that is used by handleClients() to handle reading messages from clients and broadcasting those messages to all clients.
+     * * */
     public class HandleClientThread implements Runnable {
 
         private int clientNumber;
+        private String clientName;
+        private DataInputStream inputStream;
+        private DataOutputStream outputStream;
+        private Socket socket;
 
-        HandleClientThread(int clientNumber) {
+        HandleClientThread(int clientNumber, String clientName, DataInputStream inputStream, DataOutputStream outputStream, Socket socket) {
             this.clientNumber = clientNumber;
-        }
-
-        @Override
-        public void run() {
-            try {
-                while (status == ServerStatus.RUNNING) {
-                    String message = fromClientStreams.get(clientNumber).readUTF();
-                    broadcastClientMessage(message);
-                    //System.out.println(message);
-                }
-            } catch (IOException e) {
-                System.out.println("Exception: " + e.getMessage() + " in listenToClients().");
-            }
+            this.clientName = clientName;
+            this.inputStream = inputStream;
+            this.outputStream = outputStream;
+            this.socket = socket;
         }
 
         public void startThread() {
             Thread aThread = new Thread(this);
             aThread.start();
         }
-    }
 
-    /** Broadcasts a client message once to every client connected to the server.
-     * */
-    private void broadcastClientMessage(String message) throws IOException {
-        for (int i = 0; i < numberConnections; i++) {
+        @Override
+        public void run() {
+            handleClient();
+        }
+
+        private void handleClient() {
+
+            String message;
+
             try {
-                toClientStreams.get(i).writeUTF(message);
+                while (status == ServerStatus.RUNNING) {
+                    message = inputStream.readUTF();
+                    broadcastClientMessage(message);
+                }
             } catch (IOException e) {
-                System.out.println("Exception: " + e.getMessage() + " in broadClientMessage().");
-                closeClientConnection(i);
+                closeClientConnection();
+                return;
+            }
+        }
+
+        private void broadcastClientMessage(String message) {
+            for (int i = 0; i < numberConnections; i++) {
+                try {
+                    toClientStreams.get(i).writeUTF(message);
+                } catch (IOException e) {
+                    System.out.println("Exception: " + e.getMessage() + " in broadClientMessage().");
+                }
+            }
+        }
+
+        private void closeClientConnection() {
+            try {
+                outputStream.close();
+                inputStream.close();
+                socket.close();
+
+                toClientStreams.remove(clientNumber);
+                fromClientStreams.remove(clientNumber);
+                sockets.get(clientNumber);
+
+                numberConnections--;
+                connectionsListeningTo--;
+
+                System.out.println("Client:  " + clientNumber + ", also known as, " + clientName + ", successfully closed");
+            } catch (IOException e) {
+                System.out.println("Exception: " + e.getMessage() + "in closeClientConnection");
             }
         }
     }
 
-    /** Closes a client connection.
-     * @param clientNumber the client connection number to be closed.
+    /** Shuts down the server, and alerts all clients before it does so.
      * */
-    public void closeClientConnection(int clientNumber) throws IOException {
-        try {
-            toClientStreams.get(clientNumber).close();
-            fromClientStreams.get(clientNumber).close();
-            sockets.get(clientNumber).close();
-            toClientStreams.remove(clientNumber);
-            fromClientStreams.remove(clientNumber);
-            sockets.get(clientNumber);
+    public void shutDown() {
 
-            System.out.println("Client connection" + clientNumber + " successfully closed");
-        } catch (IOException e) {
-            System.out.println("Exception: " + e.getMessage() + "in closeClientConnection");
-        }
     }
 
     /** Broadcasts a single message from the server to all clients

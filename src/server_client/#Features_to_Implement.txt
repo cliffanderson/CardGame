@@ -2,6 +2,15 @@
 1.
 Instead of using numbers to refer to clients, use Strings that identify their username.
 
-2.
+2. DONE
 Make it so that when a new client joins. It checks to see if the previous spots in the list are open or not.
 So essentially, you have to use a implementation of a ADT.
+
+Bugs:
+1. FIXED
+In handleClients()
+-the number of connections listening to needs to reduced when a connection is closed.
+
+2. FIXED
+In HandleClientThread class
+-the clientNumber needs to be reduced by 1 for all elements above clientNumber for the client connection that was just closed.
