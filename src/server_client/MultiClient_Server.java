@@ -144,7 +144,17 @@ public class MultiClient_Server {
 
         @Override
         public void run() {
+            setupUserName();
             handleClient();
+        }
+
+        private void setupUserName() {
+            try {
+                outputStream.writeUTF("What is your username?");
+                clientName = inputStream.readUTF();
+            } catch (IOException e) {
+                System.out.println("Exception: " + e.getMessage() + " in setupUserName().");
+            }
         }
 
         private void handleClient() {
@@ -165,7 +175,7 @@ public class MultiClient_Server {
         private void broadcastClientMessage(String message) {
             for (int i = 0; i < numberConnections; i++) {
                 try {
-                    toClientStreams.get(i).writeUTF(message);
+                    toClientStreams.get(i).writeUTF(clientName + ": " + message);
                 } catch (IOException e) {
                     System.out.println("Exception: " + e.getMessage() + " in broadClientMessage().");
                 }
