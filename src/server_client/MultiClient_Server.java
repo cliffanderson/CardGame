@@ -7,7 +7,6 @@ import java.util.LinkedList;
 
 /** Class that has the capabilities to act as a server, constantly accept multiple connections requests from clients, broadcast to those clients, and
  * listen to input from those clients.
- *
  * */
 
 public class MultiClient_Server {
@@ -190,7 +189,7 @@ public class MultiClient_Server {
 
                 toClientStreams.remove(clientNumber);
                 fromClientStreams.remove(clientNumber);
-                sockets.get(clientNumber);
+                sockets.remove(clientNumber);
 
                 numberConnections--;
                 connectionsListeningTo--;
