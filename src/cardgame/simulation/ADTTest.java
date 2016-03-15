@@ -15,6 +15,7 @@ public class ADTTest {
         //p.add(3,10);
         p.add(1,40);
         p.replace(5,15);
+
         //p.replace(3,5);
         Object[] list = p.toArray();
         for(Object obj :list)

@@ -48,7 +48,7 @@ public class Pile<T> implements ListInterface<T> {
         }
         Node<T> currentNode=head;
         Node<T> newNode = new Node<T>(newEntry);
-        if(newPosition==1)
+        if(newPosition==0)
         {
             newNode.setNext(head);
             head.setLast(newNode);
@@ -83,7 +83,7 @@ public class Pile<T> implements ListInterface<T> {
                 }
             }
         }
-        for(int x=1;x<=newPosition;x++)
+        for(int x=0;x<=newPosition;x++)
         {
             if(x==newPosition)
             {
