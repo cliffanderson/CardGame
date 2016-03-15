@@ -1,8 +1,5 @@
 package cardgame.adt;
 
-/**
- * Created by lawrencew on 3/2/2016.
- */
 public class Pile<T> implements ListInterface<T> {
 
     private Node<T> firstNode;
@@ -31,8 +28,7 @@ public class Pile<T> implements ListInterface<T> {
             numberOfEntries++;
             return;
         }
-
-        if (lastNode == null)
+        else if (lastNode == null)
         {
             firstNode.setNext(newNode);
             newNode.setPrevious(firstNode);
@@ -41,11 +37,12 @@ public class Pile<T> implements ListInterface<T> {
             numberOfEntries++;
             return;
         }
-
-        newNode.setPrevious(lastNode);
-        lastNode.setNext(newNode);
-        lastNode = newNode;
-        numberOfEntries++;
+        else {
+            newNode.setPrevious(lastNode);
+            lastNode.setNext(newNode);
+            lastNode = newNode;
+            numberOfEntries++;
+        }
     }
 
     /** Adds new entry at the specified position.
@@ -61,10 +58,14 @@ public class Pile<T> implements ListInterface<T> {
             Node<T> currentNode = firstNode;
             Node<T> newNode = new Node<>(newEntry);
 
+            //Special case when empty.
             if (isEmpty()) {
                 firstNode = newNode;
+                return isSuccessful;
             }
-            if (newPosition == 0)
+
+            //Special case when adding to the front.
+            else if (newPosition == 0)
             {
                 newNode.setNext(firstNode);
                 firstNode.setPrevious(newNode);
@@ -73,7 +74,9 @@ public class Pile<T> implements ListInterface<T> {
                 numberOfEntries++;
                 return isSuccessful;
             }
-            if (newPosition > 0 &&  newPosition < (numberOfEntries - 1)) {
+
+            //Case when adding in between entries in the list.
+            else if (newPosition > 0 &&  newPosition < (numberOfEntries - 1)) {
                 currentNode = firstNode.getNodeAt(newPosition);
 
                 Node previousNode = currentNode.getPrevious();
@@ -87,7 +90,8 @@ public class Pile<T> implements ListInterface<T> {
                 numberOfEntries++;
                 return isSuccessful;
             }
-            if (newPosition == numberOfEntries) {
+            //Case when adding entries at the end of the list.
+            else if (newPosition == numberOfEntries) {
 
                 Node previousNode = firstNode.getNodeAt(newPosition - 1);
                 previousNode.setNext(newNode);
@@ -106,40 +110,50 @@ public class Pile<T> implements ListInterface<T> {
      * @return the object of type T that was removed.
      * */
     public T remove(int givenPosition) {
-        if(givenPosition >= numberOfEntries)
+
+        //Checks if the given position goes out of the boundaries.
+        if(givenPosition >= numberOfEntries || givenPosition < 0)
         {
             return null;
         }
 
-        if(givenPosition==0)
+        //Case for 0 as the given position.
+        else if(givenPosition == 0)
         {
+            T data = firstNode.getData();
             firstNode = firstNode.getNext();
             firstNode.setPrevious(null);
+
             numberOfEntries--;
-            return firstNode.getData();
-        }
-        else if(givenPosition == numberOfEntries - 1)
-        {
-            T data = lastNode.getData();
-            lastNode = lastNode.getPrevious();
-            lastNode.setNext(null);
             return data;
         }
 
-        Node<T> currentNode = firstNode;
-
-        for(int x = 0; x <= givenPosition; x++)
+        //Case for the last position if that was given.
+        else if(givenPosition == numberOfEntries - 1)
         {
-            if(x == givenPosition)
-            {
-                currentNode.getPrevious().setNext(currentNode.getNext());
-                currentNode.getNext().setPrevious(currentNode.getPrevious());
-                numberOfEntries--;
-                return currentNode.getData();
-            }
-            currentNode = currentNode.getNext();
+            T data = lastNode.getData();
+
+            lastNode = lastNode.getPrevious();
+            lastNode.setNext(null);
+
+            numberOfEntries--;
+            return data;
         }
-        return null;
+
+        //General in between case.
+        else {
+            Node<T> currentNode = firstNode.getNodeAt(givenPosition);
+            T data = currentNode.getData();
+
+            Node previousNode = currentNode.getPrevious();
+            Node nextNode = currentNode.getNext();
+
+            previousNode.setNext(nextNode);
+            nextNode.setPrevious(previousNode);
+
+            numberOfEntries--;
+            return data;
+        }
     }
 
     /** Clears the list of all entries. */
@@ -156,45 +170,53 @@ public class Pile<T> implements ListInterface<T> {
      * */
     public boolean replace(int givenPosition, T newEntry) throws NullPointerException {
 
-        if(givenPosition > numberOfEntries)
+        Node<T> currentNode = firstNode;
+        Node<T> newNode = new Node<>(newEntry);
+
+        //Checks for bogus given position.
+        if(givenPosition >= numberOfEntries || givenPosition < 0)
         {
             throw new NullPointerException("That location doesn't exist");
         }
 
-        Node<T> currentNode = firstNode;
-        Node<T> newNode = new Node<T>(newEntry);
-
-        if(givenPosition == 1)
+        //Special case for replacing at 0.
+        else if(givenPosition == 0)
         {
-            if(firstNode.getNext()!=null)
+            if(firstNode.getNext() != null)
             {
                 newNode.setNext(firstNode.getNext());
             }
+
             firstNode = newNode;
             return true;
         }
 
-        if(givenPosition == numberOfEntries)
+        //Special case for replacing at end.
+        else if(givenPosition == numberOfEntries - 1)
         {
-            newNode.setPrevious(lastNode.getPrevious());
-            lastNode.getPrevious().setNext(newNode);
+            Node previousNode = lastNode.getPrevious();
+            newNode.setPrevious(previousNode);
+            previousNode.setNext(newNode);
+
             lastNode = newNode;
             return true;
         }
 
-        for(int x = 1; x <= givenPosition; x++)
-        {
-            if(x == givenPosition)
-            {
-                newNode.setNext(currentNode.getNext());
-                newNode.setPrevious(currentNode.getPrevious());
-                currentNode.getPrevious().setNext(newNode);
-                currentNode.getNext().setPrevious(newNode);
-                return true;
-            }
-            currentNode = currentNode.getNext();
+        //Case for in between the entries in the list.
+        else {
+            currentNode = firstNode.getNodeAt(givenPosition);
+
+            Node previousNode = currentNode.getPrevious();
+            Node nextNode = currentNode.getNext();
+
+            newNode.setNext(nextNode);
+            newNode.setPrevious(previousNode);
+
+            previousNode.setNext(newNode);
+            nextNode.setPrevious(newNode);
+
+            return true;
         }
-        return false;
     }
 
     /** Gets the entry at the specified position.

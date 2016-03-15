@@ -18,7 +18,10 @@ public class PileDemo {
         pile.add(3, "yoo");
         pile.add(2, "third");
 
-        //Bug when removing last node. 10 is the last node.
+        //pile.remove(4);
+        //pile.replace(6, "domination");
+
+        System.out.println(pile.contains("yoo"));
 
         Object[] arrayList = pile.toArray();
 

@@ -1,8 +1,5 @@
 package cardgame.adt;
 
-/**
- * Created by lawrencew on 3/2/2016.
- */
 public interface ListInterface<T> {
     void add(T newEntry);
 
