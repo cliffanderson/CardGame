@@ -1,0 +1,1 @@
+1. Make sure thing pieces of a class are properly passed down if there are chains in the methods?
