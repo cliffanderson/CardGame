@@ -104,7 +104,7 @@ public class Pile<T> implements ListInterface<T> {
         {
             return null;
         }
-        if(givenPosition==1)
+        if(givenPosition==0)
         {
             Node<T> temp= head;
             head=head.getNext();
@@ -115,7 +115,7 @@ public class Pile<T> implements ListInterface<T> {
 
         Node<T> currentNode = head;
 
-        for(int x=1;x<=givenPosition;x++)
+        for(int x=0;x<=givenPosition;x++)
         {
             if(x==givenPosition)
             {
@@ -226,7 +226,7 @@ public class Pile<T> implements ListInterface<T> {
         Node<T> nextNode=head;
         Object[] outputArray = new Object[numberOfEntries];
         int index=0;
-        while(nextNode!=null){
+        while(nextNode!=null&&index<numberOfEntries){
             outputArray[index]=nextNode.getData();
             nextNode=nextNode.getNext();
             index++;

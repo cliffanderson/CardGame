@@ -28,6 +28,18 @@ public class ADTTest {
         System.out.println("contains 15: "+p.contains(15));
         System.out.println("\n"+p.getLength());
 
+
+        p.remove(0);
+        p.remove(0);
+        System.out.println("\n"+p.getLength()+"\n");
+        Object[] list2 = p.toArray();
+        for(Object obj :list2)
+        {
+            System.out.println(obj);
+        }
+        System.out.println("get: "+p.getEntry(0));
+        System.out.println("contains 15: "+p.contains(15));
+        System.out.println("\n"+p.getLength());
     }
 
 
