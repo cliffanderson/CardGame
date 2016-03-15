@@ -187,7 +187,7 @@ public class Pile<T> implements ListInterface<T> {
 
         Node<T> currentNode = head;
 
-        for(int x=1;x<=givenPosition;x++)
+        for(int x=0;x<=givenPosition;x++)
         {
             if(x==givenPosition)
             {

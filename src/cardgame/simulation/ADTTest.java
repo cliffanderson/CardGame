@@ -8,7 +8,7 @@ public class ADTTest {
     public static void main(String[] args)
     {
         Pile p = new Pile();
-        p.add(1);
+        p.add("poo");
         p.add(2);
         p.add(3);
         p.add(4);
@@ -21,7 +21,7 @@ public class ADTTest {
         {
             System.out.println(obj);
         }
-        System.out.println("get: "+p.getEntry(3));
+        System.out.println("get: "+p.getEntry(0));
         System.out.println("contains 15: "+p.contains(15));
         System.out.println("\n"+p.getLength());
 
