@@ -1,4 +1,4 @@
-package cardgame.simulation;
+package cardgame.adt;
 
 import cardgame.adt.Pile;
 

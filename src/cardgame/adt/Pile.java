@@ -102,7 +102,7 @@ public class Pile<T> implements ListInterface<T> {
 
     @Override
     public T remove(int givenPosition) {
-        if(givenPosition>numberOfEntries)
+        if(givenPosition >= numberOfEntries)
         {
             return null;
         }
@@ -113,6 +113,14 @@ public class Pile<T> implements ListInterface<T> {
             head.setLast(null);
             numberOfEntries--;
             return temp.getData();
+        }
+        else if(givenPosition == numberOfEntries - 1)
+        {
+            //you want tail
+            T data = tail.getData();
+            tail = tail.getLast();
+            tail.setNext(null);
+            return data;
         }
 
         Node<T> currentNode = head;
