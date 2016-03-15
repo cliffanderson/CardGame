@@ -1,24 +1,39 @@
 package cardgame.simulation;
 
+import cardgame.Simulation;
 import cardgame.adt.TeamLinkedBag;
 
 /**
  * Created by andersonc12 on 3/1/2016.
  */
-public class Player {
-    public Player(){
+public class Player
+{
+    public Player()
+    {
         activeplayer=false;
-        hand = new TeamLinkedBag<Card>(7);
+        hand = new TeamLinkedBag<Card>();
     }
-    public TeamLinkedBag<Card> gethand(){
+
+    public TeamLinkedBag<Card> getHand()
+    {
         return hand;
     }
-    public void set_active(boolean new_state){
-        activeplayer=new_state;
+
+    public void draw()
+    {
+        hand.add(Simulation.instance.getGame().getDeck().getCard(0));
     }
-    public boolean get_active(){
+
+    public void setActive(boolean newState)
+    {
+        activeplayer = newState;
+    }
+
+    public boolean getActive()
+    {
         return activeplayer;
     }
+
     TeamLinkedBag<Card> hand;
     boolean activeplayer;
 }

@@ -1,17 +1,17 @@
-package cardgame.simulation;
+package cardgame.adt;
 
 import cardgame.adt.ListInterface;
 
 /**
  * Created by lawrencew on 3/2/2016.
  */
-public class Pile<T> implements ListInterface<T> {
+public class TeamLinkedList<T> implements ListInterface<T> {
 
     private Node<T> head=null;
     private Node<T> tail=null;
     private int numberOfEntries=0;
 
-    public Pile() {
+    public TeamLinkedList() {
 
     }
 
