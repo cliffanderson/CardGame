@@ -36,5 +36,7 @@ public class Simulation
         Simulation.instance = new Simulation();
 
         GUI gui = new GUI(800, 600, "Go Fish!");
+
+
     }
 }
