@@ -13,20 +13,23 @@ public abstract class Engine
     {
         this.deck = new Deck();
         us = new Player();
+        us.setActive(true);
         them = new Player();
     }
 
-    public void draw(){
-        //LoadedDeck.pop();
+    public Card draw(){
+       return deck.getCard(0);
     }
     public void shuffle(){
-       //call deck class
+
     }
     public void playCard(){
         //put card from hand into play space
     }
     public void passTurn(){
         //change actitive player
+        us.setActive(!us.getActive());
+        them.setActive(!them.getActive());
     }
 
     public Deck getDeck()

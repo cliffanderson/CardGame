@@ -35,5 +35,5 @@ public class Player
     }
 
     TeamLinkedBag<Card> hand;
-    boolean activeplayer;
+     private boolean activeplayer;
 }
