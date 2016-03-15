@@ -7,12 +7,14 @@ import cardgame.adt.ListInterface;
  */
 public class Pile<T> implements ListInterface<T> {
 
-    private Node<T> head=null;
-    private Node<T> tail=null;
-    private int numberOfEntries=0;
+    private Node<T> head;
+    private Node<T> tail;
+    private int numberOfEntries;
 
     public Pile() {
-
+        head = null;
+        tail = null;
+        numberOfEntries = 0;
     }
 
     public void add(T newEntry) {

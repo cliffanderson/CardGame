@@ -6,9 +6,14 @@ Instead of using numbers to refer to clients, use Strings that identify their us
 Make it so that when a new client joins. It checks to see if the previous spots in the list are open or not.
 So essentially, you have to use a implementation of a ADT.
 
-3.
+3. DONE
 See if there is a more proper way to use exceptions.
 -There is, you can pass exceptions. The question is, should I do that?
+
+You can pass the exceptions down by throwing exceptions, but as far as I know, its better to just check immediately for exceptions.
+However, if you're logging the exceptions into a file, you might be able to just pass down exceptions through the methods into a method that handles
+all exceptions possible and logs them.
+At least, I'm assuming you can do that.
 
 Bugs:
 1. FIXED
