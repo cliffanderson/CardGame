@@ -2,6 +2,8 @@ package cardgame;
 
 import cardgame.gui.GUI;
 import cardgame.simulation.Card;
+import cardgame.simulation.Engine;
+import cardgame.simulation.GoFish;
 import cardgame.simulation.card.Suit;
 import cardgame.simulation.card.Type;
 
@@ -16,62 +18,25 @@ import java.util.ArrayList;
  */
 public class Simulation
 {
-    private ArrayList<Card> pile;
     public static Simulation instance;
+    private Engine game;
 
     public Simulation()
     {
-        this.pile = new ArrayList<>();
-        loadCards();
+        this.game = new GoFish();
     }
 
-    private void loadCards()
+    public Engine getGame()
     {
-        File cardFolder = new File("resources/cards");
-        File[] fileList = cardFolder.listFiles();
-
-        for(File f : fileList)
-        {
-            if(f.isDirectory()) continue;
-
-            //get name of file without extension
-            String name = f.getName().replace(".jpg", "");
-
-            //get type code by removing all non-numeric characters from name
-            int typeCode = Integer.parseInt(name.replaceAll("[^\\d.]", ""));
-            Type type = Type.getByValue(typeCode);
-
-            //get suite name by removing all digits from name
-            String suitName = name.replaceAll("[0-9]", "");
-            Suit suit = Suit.getByName(suitName);
-
-            //get the image
-            Image image;
-            try{
-                image = ImageIO.read(f);
-            }
-            catch (IOException e)
-            {
-                System.err.println("Error reading image: " + f.getName());
-                e.printStackTrace();
-                continue;
-            }
-
-            Card card = new Card(image, type, suit);
-            this.pile.add(card);
-        }
-
-        System.out.println("Loaded " + this.pile.size() + " cards");
-    }
-
-    public ArrayList<Card> getPile() {
-        return pile;
+        return this.game;
     }
 
     public static void main(String[] args)
     {
-        Simulation sim = new Simulation();
-        Simulation.instance = sim;
+        Simulation.instance = new Simulation();
+
         GUI gui = new GUI(800, 600, "Go Fish!");
+
+
     }
 }

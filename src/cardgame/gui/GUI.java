@@ -1,6 +1,7 @@
 package cardgame.gui;
 
 import cardgame.Simulation;
+import cardgame.simulation.Card;
 
 import java.awt.*;
 
@@ -9,7 +10,7 @@ import java.awt.*;
  */
 public class GUI
 {
-    private int width, height, cardWidth, cardHeight;
+    private int width, height, defaultCardWidth, defaultCardHeight;
 
     public GUI(int width, int height, String title)
     {
@@ -17,32 +18,55 @@ public class GUI
         this.width = width;
         this.height = height;
 
-        this.cardHeight = Simulation.instance.getPile().get(0).getImage().getHeight(null);
-        this.cardWidth =  Simulation.instance.getPile().get(0).getImage().getWidth(null);
+        System.out.println("Instance: " + Simulation.instance);
+        System.out.println("Game: " + Simulation.instance.getGame());
+        System.out.println("There are " + Simulation.instance.getGame().getDeck().getSize() + " cards");
+        System.out.println("First card: " + Simulation.instance.getGame().getDeck().getCard(0));
+        System.out.println("Image object: " + Simulation.instance.getGame().getDeck().getCard(0).getImage());
+        this.defaultCardHeight = Simulation.instance.getGame().getDeck().getCard(0).getImage().getHeight(null);
+        this.defaultCardWidth =  Simulation.instance.getGame().getDeck().getCard(0).getImage().getWidth(null);
 
         mainLoop(api);
     }
 
     private void mainLoop(GraphicsAPI api)
     {
-        double scaleFactor = 0.5;
-        this.cardWidth  *= scaleFactor;
-        this.cardHeight *= scaleFactor;
+        Simulation.instance.getGame().getUs().draw();
+
         Graphics g;
+        Font font = new Font("Times New Roman", Font.BOLD, 32);
         while(true)
         {
             g = api.getGraphics();
+            g.setFont(font);
 
             //reset
             g.setColor(Color.white);
             g.fillRect(0, 0, this.width, this.height);
 
             //draw pile in middle
-            int x = this.width/2 - this.cardWidth/2;
-            int y = this.height/2 - this.cardHeight/2;
+            int x = this.width/2 - ((int) (this.defaultCardWidth * 0.5)) /2;
+            int y = this.height/2 - ((int) (this.defaultCardHeight * 0.5)) /2;
             g.setColor(Color.black);
-            g.drawRect(x, y, this.cardWidth, this.cardHeight);
-            g.drawString("Pile: " + Simulation.instance.getPile().size(), x + 5, y + 20);
+            g.drawRect(x, y, (int) (this.defaultCardWidth * 0.5), (int) (this.defaultCardHeight * 0.5));
+
+            g.drawString(String.valueOf(Simulation.instance.getGame().getDeck().getSize()), x + 37, y + 87);
+
+
+            //draw our cards
+            int numCards = Simulation.instance.getGame().getUs().getHand().getCurrentSize();
+            int maxWidth = this.width / numCards;
+
+            if(maxWidth > this.defaultCardWidth)
+            {
+                maxWidth = this.defaultCardWidth;
+            }
+
+            for(int i = 0; i < numCards; i++) {
+                Card card = Simulation.instance.getGame().getDeck().getCard(i);
+                Image image = card.getImage();
+                g.drawImage(image, i * maxWidth, this.height - image.getHeight(null), null);
+            }
 
             api.draw();
             System.out.println("loop");
