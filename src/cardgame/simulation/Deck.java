@@ -1,30 +1,46 @@
 package cardgame.simulation;
 
-import cardgame.adt.TeamLinkedList;
+import cardgame.adt.Pile;
 import cardgame.simulation.card.Suit;
 import cardgame.simulation.card.Type;
-import org.omg.CORBA.Object;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 
 /**
  * Created by andersonc12 on 3/1/2016.
  */
 public class Deck {
-    TeamLinkedList<Card> contents;
+    Pile<Card> contents;
 
     public Deck(){
-        contents = new TeamLinkedList<>();
+        contents = new Pile<>();
         loadCards();
+        shuffle();
         //construct empty list of cards
         //here
         //create card
         //push card onto list
         //goto
+    }
+
+    private void shuffle()
+    {
+        //take a random card from the deck and put it at the bottom
+        //do this 10000 times
+        for(int i = 0; i < 10000; i++)
+        {
+            System.out.println("Start of loop");
+            int cardNum = (int) (Math.random() * contents.getLength());
+            System.out.println("Card num: " + cardNum);
+            System.out.println("before remove: " + contents.getLength());
+            Card c = contents.remove(cardNum);
+            System.out.println("After remove: " + contents.getLength());
+            contents.add(c);
+            System.out.println("Back to " + contents.getLength());
+        }
     }
 
     private void loadCards()

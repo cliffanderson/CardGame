@@ -31,49 +31,48 @@ public class GUI
 
     private void mainLoop(GraphicsAPI api)
     {
-        Simulation.instance.getGame().getUs().draw();
+        new Thread() {
+            @Override
+            public void run() {
+                Simulation.instance.getGame().getUs().draw();
 
-        Graphics g;
-        Font font = new Font("Times New Roman", Font.BOLD, 32);
-        while(true)
-        {
-            g = api.getGraphics();
-            g.setFont(font);
+                Graphics g;
+                Font font = new Font("Times New Roman", Font.BOLD, 32);
+                while (true) {
+                    g = api.getGraphics();
+                    g.setFont(font);
 
-            //reset
-            g.setColor(Color.white);
-            g.fillRect(0, 0, this.width, this.height);
+                    //reset
+                    g.setColor(Color.white);
+                    g.fillRect(0, 0, width, height);
 
-            //draw pile in middle
-            int x = this.width/2 - ((int) (this.defaultCardWidth * 0.5)) /2;
-            int y = this.height/2 - ((int) (this.defaultCardHeight * 0.5)) /2;
-            g.setColor(Color.black);
-            g.drawRect(x, y, (int) (this.defaultCardWidth * 0.5), (int) (this.defaultCardHeight * 0.5));
+                    //draw pile in middle
+                    int x = width / 2 - ((int) (defaultCardWidth * 0.5)) / 2;
+                    int y = height / 2 - ((int) (defaultCardHeight * 0.5)) / 2;
+                    g.setColor(Color.black);
+                    g.drawRect(x, y, (int) (defaultCardWidth * 0.5), (int) (defaultCardHeight * 0.5));
 
-            g.drawString(String.valueOf(Simulation.instance.getGame().getDeck().getSize()), x + 37, y + 87);
+                    g.drawString(String.valueOf(Simulation.instance.getGame().getDeck().getSize()), x + 37, y + 87);
 
 
-            //draw our cards
-            int numCards = Simulation.instance.getGame().getUs().getHand().getCurrentSize();
-            int maxWidth = this.width / numCards;
+                    //draw our cards
+                    int numCards = Simulation.instance.getGame().getUs().getHand().getCurrentSize();
 
-            if(maxWidth > this.defaultCardWidth)
-            {
-                maxWidth = this.defaultCardWidth;
+                    for (int i = 0; i < numCards; i++) {
+                        Card card = Simulation.instance.getGame().getDeck().getCard(i);
+                        Image image = card.getImage();
+                        image = image.getScaledInstance((int) (defaultCardWidth * 0.5), (int) (defaultCardHeight * 0.5), Image.SCALE_FAST);
+                        g.drawImage(image, i * defaultCardWidth  / numCards, height - image.getHeight(null), null);
+                    }
+
+                    api.draw();
+                    System.out.println("loop");
+                    try {
+                        Thread.sleep(10);
+                    } catch (Exception e) {
+                    }
+                }
             }
-
-            for(int i = 0; i < numCards; i++) {
-                Card card = Simulation.instance.getGame().getDeck().getCard(i);
-                Image image = card.getImage();
-                g.drawImage(image, i * maxWidth, this.height - image.getHeight(null), null);
-            }
-
-            api.draw();
-            System.out.println("loop");
-            try {
-                Thread.sleep(10);
-            }
-            catch (Exception e){}
-        }
+        }.start();
     }
 }

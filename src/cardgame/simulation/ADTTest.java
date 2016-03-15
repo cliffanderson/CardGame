@@ -1,6 +1,6 @@
 package cardgame.simulation;
 
-import cardgame.adt.TeamLinkedList;
+import cardgame.adt.Pile;
 
 /**
  * Created by lawrencew on 3/3/2016.
@@ -9,7 +9,7 @@ public class ADTTest {
 
     public static void main(String[] args)
     {
-        TeamLinkedList p = new TeamLinkedList();
+        Pile p = new Pile();
         p.add("poo");
         p.add(2);
         p.add(3);
