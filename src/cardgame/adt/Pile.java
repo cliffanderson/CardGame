@@ -1,7 +1,5 @@
 package cardgame.adt;
 
-import cardgame.adt.ListInterface;
-
 /**
  * Created by lawrencew on 3/2/2016.
  */
@@ -13,7 +11,7 @@ public class Pile<T> implements ListInterface<T> {
 
     public Pile() {
         head = null;
-        tail = null;
+        tail = new Node<>(null);
         numberOfEntries = 0;
     }
 
@@ -40,36 +38,43 @@ public class Pile<T> implements ListInterface<T> {
         numberOfEntries++;
     }
 
+    /***/
+    /*
     public boolean add(int newPosition, T newEntry) {
-        boolean headCreated=false;
-        if(head==null)
+        boolean headCreated = false;
+
+        if(head == null)
         {
             head = new Node(null);
             numberOfEntries++;
-            headCreated=true;
+            headCreated = true;
         }
-        Node<T> currentNode=head;
+
+        Node<T> currentNode = head;
         Node<T> newNode = new Node<T>(newEntry);
-        if(newPosition==0)
+
+        if(newPosition == 0)
         {
             newNode.setNext(head);
             head.setLast(newNode);
             head = newNode;
             numberOfEntries++;
+
             if (headCreated)
             {
                 head.setNext(null);
             }
             return true;
         }
-        if(newPosition>=numberOfEntries)
-        {
-            int spot = newPosition-numberOfEntries;
-            for(int x=0;x<=spot;x++)
-            {
-                if(x==spot)
-                {
 
+        if(newPosition >= numberOfEntries)
+        {
+            int spot = newPosition - numberOfEntries;
+
+            for(int x = 0; x <= spot; x++)
+            {
+                if(x == spot)
+                {
                     tail.getLast().setNext(newNode);
                     newNode.setLast(tail);
                     tail=newNode;
@@ -85,38 +90,88 @@ public class Pile<T> implements ListInterface<T> {
                 }
             }
         }
-        for(int x=0;x<=newPosition;x++)
+
+        for(int x = 0; x <= newPosition; x++)
         {
-            if(x==newPosition)
+            if(x == newPosition)
             {
                 newNode.setNext(currentNode);
-                newNode.setLast(currentNode.getLast());
+                newNode.setLast(currentNode.getLast()); //Problem here.
                 currentNode.getLast().setNext(newNode);
+                currentNode.setLast(newNode); //Bug was here, but I fixed it.
                 numberOfEntries++;
                 return true;
             }
             currentNode=currentNode.getNext();
         }
         return false;
+    } */
+
+
+    public boolean add(int newPosition, T newEntry) {
+
+        boolean isSuccessful = true;
+
+        if (newPosition >= 0 && newPosition <= numberOfEntries) {
+
+            Node<T> currentNode = head;
+            Node<T> newNode = new Node<>(newEntry);
+
+            if (head == null) {
+                head = new Node<>(newEntry);
+                head.setNext(tail);
+                tail.setLast(head);
+
+                numberOfEntries++;
+                return isSuccessful;
+            }
+            else if (newPosition == 0) {
+                newNode.setNext(head);
+                head.setLast(newNode);
+                head = newNode;
+
+                numberOfEntries++;
+                return isSuccessful;
+            } else if (newPosition == numberOfEntries) {
+                tail.getLast().setNext(newNode);
+                tail = newNode;
+
+                numberOfEntries++;
+                return isSuccessful;
+            }
+            //Bug reminder, you can't use methods of a null instance.
+
+            for (int i = 0; i <= newPosition; i++) {
+
+                if (i == newPosition) {
+
+                }
+                currentNode = currentNode.getNext();
+            }
+        }
+
+        return  isSuccessful;
     }
 
-    @Override
+    /** Removes the entry at the given position.
+     * @param givenPosition the position of the entry to be removed
+     * @return the object of type T that was removed.
+     * */
     public T remove(int givenPosition) {
         if(givenPosition >= numberOfEntries)
         {
             return null;
         }
+
         if(givenPosition==0)
         {
-            Node<T> temp= head;
-            head=head.getNext();
+            head = head.getNext();
             head.setLast(null);
             numberOfEntries--;
-            return temp.getData();
+            return head.getData();
         }
         else if(givenPosition == numberOfEntries - 1)
         {
-            //you want tail
             T data = tail.getData();
             tail = tail.getLast();
             tail.setNext(null);
@@ -125,9 +180,9 @@ public class Pile<T> implements ListInterface<T> {
 
         Node<T> currentNode = head;
 
-        for(int x=0;x<=givenPosition;x++)
+        for(int x = 0; x <= givenPosition; x++)
         {
-            if(x==givenPosition)
+            if(x == givenPosition)
             {
                 currentNode.getLast().setNext(currentNode.getNext());
                 currentNode.getNext().setLast(currentNode.getLast());
@@ -139,7 +194,7 @@ public class Pile<T> implements ListInterface<T> {
         return null;
     }
 
-    @Override
+    /** Clears the list of all entries. */
     public void clear() {
         if(head!=null)
         {
@@ -147,15 +202,22 @@ public class Pile<T> implements ListInterface<T> {
         }
     }
 
-    public boolean replace(int givenPosition, T newEntry) throws
-            NullPointerException{
-        if(givenPosition>numberOfEntries)
+    /** Replaces the entry at the given position with the new entry.
+     * @param givenPosition the position of the entry that will be replaced.
+     * @param newEntry the new entry to replace the existing entry at the specified position.
+     * @return true if the entry at the given position is replaced successfully.
+     * */
+    public boolean replace(int givenPosition, T newEntry) throws NullPointerException {
+
+        if(givenPosition > numberOfEntries)
         {
             throw new NullPointerException("That location doesn't exist");
         }
-        Node<T> currentNode=head;
+
+        Node<T> currentNode = head;
         Node<T> newNode = new Node<T>(newEntry);
-        if(givenPosition==1)
+
+        if(givenPosition == 1)
         {
             if(head.getNext()!=null)
             {
@@ -164,17 +226,18 @@ public class Pile<T> implements ListInterface<T> {
             head = newNode;
             return true;
         }
-        if(givenPosition==numberOfEntries)
+
+        if(givenPosition == numberOfEntries)
         {
             newNode.setLast(tail.getLast());
             tail.getLast().setNext(newNode);
-            tail=newNode;
+            tail = newNode;
             return true;
         }
 
-        for(int x=1;x<=givenPosition;x++)
+        for(int x = 1; x <= givenPosition; x++)
         {
-            if(x==givenPosition)
+            if(x == givenPosition)
             {
                 newNode.setNext(currentNode.getNext());
                 newNode.setLast(currentNode.getLast());
@@ -182,22 +245,24 @@ public class Pile<T> implements ListInterface<T> {
                 currentNode.getNext().setLast(newNode);
                 return true;
             }
-            currentNode=currentNode.getNext();
+            currentNode = currentNode.getNext();
         }
         return false;
-
     }
 
-    @Override
+    /** Gets the entry at the specified position.
+     * @param givenPosition the position to get the entry at.
+     * @return the entry of type T.
+     * */
     public T getEntry(int givenPosition) {
-        if(givenPosition>numberOfEntries)
+        if(givenPosition > numberOfEntries)
         {
             return null;
         }
 
         Node<T> currentNode = head;
 
-        for(int x=0;x<=givenPosition;x++)
+        for(int x=0; x <= givenPosition; x++)
         {
             if(x==givenPosition)
             {
@@ -208,6 +273,10 @@ public class Pile<T> implements ListInterface<T> {
         return null;
     }
 
+    /** Checks if the list contains the entry.
+     * @param anEntry the entry to be checked.
+     * @return true if the object is contained in the list.
+     * */
     public boolean contains(T anEntry) {
 
         Node<T> nextNode=head;
@@ -221,17 +290,23 @@ public class Pile<T> implements ListInterface<T> {
 
     }
 
-    @Override
+    /** Gets the length of the list.
+     * @return the length.
+     * */
     public int getLength() {
         return numberOfEntries;
     }
 
-    @Override
+    /** Checks if the list is empty.
+     * @return true if it is empty.
+     * */
     public boolean isEmpty() {
         return numberOfEntries==0;
     }
 
-    @Override
+    /** Returns the list as an array of type T.
+     * @return the array of type T.
+     * */
     public T[] toArray() {
         Node<T> nextNode=head;
         Object[] outputArray = new Object[numberOfEntries];
@@ -249,7 +324,8 @@ public class Pile<T> implements ListInterface<T> {
 
         public Node(T data) {
             this.data = data;
-            NextNode = null;
+            newNode = null;
+            lastNode = null;
         }
 
         public T getData() {
@@ -262,17 +338,19 @@ public class Pile<T> implements ListInterface<T> {
         }
         public void setLast(Node<T> lastNode)
         {
-            this.lastNode=lastNode;
+            this.lastNode = lastNode;
         }
-        public Node<T> getNext() {
-            return NextNode;
-        }
-
-        public void setNext(Node<T> NextNode) {
-            this.NextNode = NextNode;
+        public Node<T> getNext()
+        {
+            return newNode;
         }
 
-        private Node<T> NextNode,lastNode;
+        public void setNext(Node<T> NextNode)
+        {
+            this.newNode = NextNode;
+        }
+
+        private Node<T> newNode,lastNode;
         private T data;
     }
 }
