@@ -2,6 +2,8 @@ package cardgame.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 
 /**
@@ -17,6 +19,7 @@ public class GraphicsAPI {
 
         JFrame frame = new JFrame(title);
         JPanel panel = (JPanel) frame.getContentPane();
+        canvas.addMouseListener(new MouseEventListener());
         panel.setPreferredSize(new Dimension(x, y));
         panel.setLayout(null);
 
@@ -71,5 +74,4 @@ public class GraphicsAPI {
         getGraphics().dispose();
         canvas.getBufferStrategy().show();
     }
-
 }

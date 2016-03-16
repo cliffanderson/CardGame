@@ -22,8 +22,8 @@ public class GUI
         this.width = width;
         this.height = height;
 
-        this.defaultCardHeight = Simulation.instance.getGame().getDeck().getCard(0).getImage().getHeight(null);
-        this.defaultCardWidth =  Simulation.instance.getGame().getDeck().getCard(0).getImage().getWidth(null);
+        this.defaultCardHeight = Simulation.instance.getGame().getDeck().removeCard(0).getImage().getHeight(null);
+        this.defaultCardWidth =  Simulation.instance.getGame().getDeck().removeCard(0).getImage().getWidth(null);
 
         try
         {
@@ -69,7 +69,7 @@ public class GUI
                     int numCards = Simulation.instance.getGame().getUs().getHand().getCurrentSize();
 
                     for (int i = 0; i < numCards; i++) {
-                        Card card = Simulation.instance.getGame().getDeck().getCard(i);
+                        Card card = Simulation.instance.getGame().getUs().getHand().
                         Image image = card.getImage();
                         int drawX = i * ((width / 2) / numCards); //Evenly separated on the left half of the screen
                         int drawY = height - image.getHeight(null); //draw at the bottom on the screen
@@ -88,7 +88,7 @@ public class GUI
                     }
 
                     api.draw();
-                    System.out.println("loop");
+                   // System.out.println("loop");
                     try {
                         Thread.sleep(10);
                     } catch (Exception e) {

@@ -78,9 +78,9 @@ public class Deck {
         System.out.println("Loaded " + this.contents.getLength() + " cards");
     }
 
-    public Card getCard(int index)
+    public Card removeCard(int index)
     {
-        return this.contents.getEntry(index);
+        return this.contents.remove(index);
     }
 
     public int getSize()

@@ -24,7 +24,7 @@ public class Player
 
     public void draw()
     {
-        hand.add(Simulation.instance.getGame().getDeck().getCard(0));
+        hand.add(Simulation.instance.getGame().getDeck().removeCard(0));
     }
 
     public void setActive(boolean newState)

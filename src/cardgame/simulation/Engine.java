@@ -18,7 +18,7 @@ public abstract class Engine
     }
 
     public Card draw(){
-       return deck.getCard(0);
+       return deck.removeCard(0);
     }
     public void shuffle(){
 
