@@ -13,7 +13,9 @@ import java.io.IOException;
  * Created by andersonc12 on 3/1/2016.
  */
 public class Deck {
-    Pile<Card> contents;
+    private Pile<Card> contents;
+
+    private int cardHeight, cardWidth;
 
     public Deck(){
         contents = new Pile<>();
@@ -36,6 +38,7 @@ public class Deck {
             Card c = contents.remove(cardNum);
             contents.add(c);
         }
+
     }
 
     private void loadCards()
@@ -63,6 +66,8 @@ public class Deck {
             try{
                 image = ImageIO.read(f);
                 image = image.getScaledInstance((int) (image.getWidth(null) * 0.5), (int) (image.getHeight(null) * 0.5), Image.SCALE_SMOOTH);
+                this.cardHeight = image.getHeight(null);
+                this.cardWidth = image.getWidth(null);
             }
             catch (IOException e)
             {
@@ -80,11 +85,22 @@ public class Deck {
 
     public Card removeCard(int index)
     {
-        return this.contents.remove(index);
+        Card c = this.contents.remove(index);
+
+        System.out.println("removing " + c);
+        return c;
     }
 
     public int getSize()
     {
         return this.contents.getLength();
+    }
+
+    public int getCardHeight() {
+        return cardHeight;
+    }
+
+    public int getCardWidth() {
+        return cardWidth;
     }
 }
