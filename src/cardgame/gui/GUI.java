@@ -39,7 +39,7 @@ public class GUI
         mainLoop(api);
     }
 
-    private void mainLoop(GraphicsAPI api)
+    private void mainLoop(final GraphicsAPI api)
     {
         new Thread() {
             @Override
