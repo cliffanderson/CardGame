@@ -13,6 +13,9 @@ public class Player
         activeplayer=false;
         hand = new TeamLinkedBag<Card>();
     }
+    public void playCard(){
+        //put card from hand into play space
+    }
 
     public TeamLinkedBag<Card> getHand()
     {
@@ -34,6 +37,6 @@ public class Player
         return activeplayer;
     }
 
-    TeamLinkedBag<Card> hand;
-     private boolean activeplayer;
+    private TeamLinkedBag<Card> hand;
+    private boolean activeplayer;
 }

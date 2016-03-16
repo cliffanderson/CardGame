@@ -23,9 +23,7 @@ public abstract class Engine
     public void shuffle(){
 
     }
-    public void playCard(){
-        //put card from hand into play space
-    }
+
     public void passTurn(){
         //change actitive player
         us.setActive(!us.getActive());
