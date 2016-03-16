@@ -32,14 +32,9 @@ public class Deck {
         //do this 10000 times
         for(int i = 0; i < 10000; i++)
         {
-            System.out.println("Start of loop");
             int cardNum = (int) (Math.random() * contents.getLength());
-            System.out.println("Card num: " + cardNum);
-            System.out.println("before remove: " + contents.getLength());
             Card c = contents.remove(cardNum);
-            System.out.println("After remove: " + contents.getLength());
             contents.add(c);
-            System.out.println("Back to " + contents.getLength());
         }
     }
 
@@ -67,6 +62,7 @@ public class Deck {
             Image image;
             try{
                 image = ImageIO.read(f);
+                image = image.getScaledInstance((int) (image.getWidth(null) * 0.5), (int) (image.getHeight(null) * 0.5), Image.SCALE_SMOOTH);
             }
             catch (IOException e)
             {
