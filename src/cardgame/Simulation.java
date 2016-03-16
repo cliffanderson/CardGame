@@ -15,28 +15,28 @@ import java.util.ArrayList;
 
 /**
  * Created by andersonc12 on 3/1/2016.
- */
-public class Simulation
-{
-    public static Simulation instance;
-    private Engine game;
-
-    public Simulation()
+        */
+    public class Simulation
     {
-        this.game = new GoFish();
-    }
+        public static Simulation instance;
+        private Engine game;
 
-    public Engine getGame()
-    {
-        return this.game;
-    }
+        public Simulation()
+        {
+            this.game = new GoFish();
+        }
 
-    public static void main(String[] args)
-    {
-        Simulation.instance = new Simulation();
+        public Engine getGame()
+        {
+            return this.game;
+        }
 
-        GUI gui = new GUI(800, 600, "Go Fish!");
+        public static void main(String[] args)
+        {
+            Simulation.instance = new Simulation();
+
+            GUI gui = new GUI(800, 600, "Go Fish!");
 
 
-    }
+        }
 }
