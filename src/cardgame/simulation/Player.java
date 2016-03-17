@@ -15,8 +15,8 @@ public class Player
         activeplayer=false;
         hand = new ArrayList<Card>();
     }
-    public void playCard(){
-        //put card from hand into play space
+    public void playCard(Card card){
+        hand.remove(card);
     }
 
     public ArrayList<Card> getHand()

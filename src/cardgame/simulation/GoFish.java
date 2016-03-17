@@ -23,13 +23,23 @@ public class GoFish extends Engine
         //called by clicker
         //if clicked card also exists in hand of non active player remove both from each players hand and play
         //then in front of acive player: active player retains status as active player
-        if(getThem().getHand().contains(ChosenCard)){
-            getUs().playCard();
-            getThem().playCard();
+        boolean match=false;
+        int MatchingCardID=0;
+        for(int i=0;i<getThem().getHand().size();i++){
+            if(ChosenCard.getType().getValue()== getThem().getHand().get(i).getType().getValue()){
+                match=true;
+                MatchingCardID=i;
+                break;
+            }
+        }
+
+        if(match==true){
+            getUs().playCard(ChosenCard);
+            getThem().playCard(getThem().getHand().get(MatchingCardID));
         }
 
         //if clicked card does not exist in nonactive hand, active player draws a card and passes the turn
-        else if(!getThem().getHand().contains(ChosenCard)){
+        else{
             getUs().draw();
             passTurn();
         }

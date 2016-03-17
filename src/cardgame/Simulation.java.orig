@@ -1,0 +1,49 @@
+package cardgame;
+
+import cardgame.gui.GUI;
+import cardgame.simulation.Card;
+import cardgame.simulation.Engine;
+import cardgame.simulation.GoFish;
+import cardgame.simulation.card.Suit;
+import cardgame.simulation.card.Type;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ * Created by andersonc12 on 3/1/2016.
+        */
+    public class Simulation
+    {
+        public static Simulation instance;
+        private Engine game;
+
+        public Simulation()
+        {
+            this.game = new GoFish();
+        }
+
+<<<<<<< HEAD
+        public Engine getGame()
+        {
+            return this.game;
+        }
+
+        public static void main(String[] args)
+        {
+            Simulation.instance = new Simulation();
+=======
+    public static void main(String[] args)
+    {
+        Simulation.instance = new Simulation();
+        Simulation.instance.game.setupGame();
+>>>>>>> 9c8a89165415b7713439c6bea6e016fda45c6a06
+
+            GUI gui = new GUI(800, 600, "Go Fish!");
+
+
+        }
+}
