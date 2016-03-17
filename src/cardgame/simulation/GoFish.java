@@ -42,6 +42,21 @@ public class GoFish extends Engine
             //if clicked card does not exist in nonactive hand, active player draws a card and passes the turn
             else {
                 getUs().draw();
+                Card c, d;
+
+                checker: for (int i=0;i<getUs().getHand().size();i++){
+                    c=getUs().getHand().get(i);
+                    for (int j=i+1;j<getUs().getHand().size();j++){
+                        d=getUs().getHand().get(j);
+                        if (c.getType().getValue()==d.getType().getValue()){
+                            getUs().getHand().remove(c);
+                            getUs().getHand().remove(d);
+                            break checker;
+
+                        }
+
+                    }
+                }
                 passTurn();
             }
         }
@@ -66,6 +81,22 @@ public class GoFish extends Engine
             //if clicked card does not exist in nonactive hand, active player draws a card and passes the turn
             else {
                 getThem().draw();
+
+                Card c, d;
+                checker: for (int i=0;i<getThem().getHand().size();i++){
+                    c=getThem().getHand().get(i);
+                    for (int j=i+1;j<getThem().getHand().size();j++){
+                        d=getThem().getHand().get(j);
+                        if (c.getType().getValue()==d.getType().getValue()){
+                            getThem().getHand().remove(c);
+                            getThem().getHand().remove(d);
+                            break checker;
+
+                        }
+
+                    }
+                }
+
                 passTurn();
             }
         }

@@ -25,10 +25,11 @@ public class Player
         return hand;
     }
 
-    public void draw()
+    public Card draw()
     {
         Card c = Simulation.instance.getGame().getDeck().removeCard(0);
         hand.add(c);
+        return c;
     }
 
     public void setActive(boolean newState)
