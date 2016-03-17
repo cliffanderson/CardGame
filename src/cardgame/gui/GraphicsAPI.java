@@ -2,13 +2,8 @@ package cardgame.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 
-/**
- * Created by andersonc12 on 3/1/2016.
- */
 public class GraphicsAPI {
 
     private BufferStrategy strategy;
@@ -37,7 +32,7 @@ public class GraphicsAPI {
         canvas.createBufferStrategy(2);
         strategy = canvas.getBufferStrategy();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		/*
 		JFrame frame = new JFrame(title);
