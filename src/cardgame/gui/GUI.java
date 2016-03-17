@@ -17,7 +17,7 @@ public class GUI
     //scaled default height and width
     private int defaultCardWidth, defaultCardHeight;
     private int width, height, numCards;
-    private Image cardBack;
+    private Image cardBack, background;
 
     public GUI(int width, int height, String title)
     {
@@ -32,6 +32,9 @@ public class GUI
         {
             cardBack = ImageIO.read(new File("resources/cards/cardback.png"));
             cardBack = cardBack.getScaledInstance(defaultCardWidth, defaultCardHeight, Image.SCALE_SMOOTH);
+
+            background = ImageIO.read(new File("resources/tabletop.jpg"));
+            background = background.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         }
         catch (IOException e)
         {
@@ -55,8 +58,7 @@ public class GUI
                     g.setFont(font);
 
                     //reset
-                    g.setColor(Color.white);
-                    g.fillRect(0, 0, width, height);
+                    g.drawImage(background, 0, 0, null);
 
                     //draw pile in middle
                     int x = width / 2 - defaultCardWidth / 2;
