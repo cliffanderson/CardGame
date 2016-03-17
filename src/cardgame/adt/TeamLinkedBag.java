@@ -127,6 +127,16 @@ public class TeamLinkedBag<T>{
 		}
 		return false;
 	}
+
+	public T peak(int index) {
+		Node currentNode = this.head;
+		for(int i = 0; i < index - 1; i++)
+		{
+			currentNode = currentNode.getNext();
+		}
+
+		return (T)currentNode.getData();
+	}
 	/**
 	 * @return array object containing all objects from the bag. Bag is emptied 
 	 */

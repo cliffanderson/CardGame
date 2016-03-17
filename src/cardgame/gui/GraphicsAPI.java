@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-/**
- * Created by andersonc12 on 3/1/2016.
- */
 public class GraphicsAPI {
 
     private BufferStrategy strategy;
@@ -17,6 +14,7 @@ public class GraphicsAPI {
 
         JFrame frame = new JFrame(title);
         JPanel panel = (JPanel) frame.getContentPane();
+        canvas.addMouseListener(new MouseEventListener());
         panel.setPreferredSize(new Dimension(x, y));
         panel.setLayout(null);
 
@@ -34,7 +32,7 @@ public class GraphicsAPI {
         canvas.createBufferStrategy(2);
         strategy = canvas.getBufferStrategy();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		/*
 		JFrame frame = new JFrame(title);
@@ -71,5 +69,4 @@ public class GraphicsAPI {
         getGraphics().dispose();
         canvas.getBufferStrategy().show();
     }
-
 }

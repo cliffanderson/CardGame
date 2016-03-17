@@ -15,16 +15,36 @@ import java.util.ArrayList;
 
 /**
  * Created by andersonc12 on 3/1/2016.
-        */
-    public class Simulation
-    {
-        public static Simulation instance;
-        private Engine game;
+<<<<<<< HEAD
+ */
+public class Simulation
+{
+    public static Simulation instance;
+    private Engine game;
     private static GUI gui;
 
     public GUI getGui() {
         return gui;
     }
+
+    public Simulation()
+    {
+        this.game = new GoFish();
+    }
+
+    public Engine getGame()
+    {
+        return this.game;
+    }
+
+    public static void main(String[] args)
+=======
+        */
+    public class Simulation
+>>>>>>> e4fc05d4bd9f3e2aa4580d41f8677007af5a002b
+    {
+        public static Simulation instance;
+        private Engine game;
 
         public Simulation()
         {
@@ -41,6 +61,13 @@ import java.util.ArrayList;
             Simulation.instance = new Simulation();
         Simulation.instance.game.setupGame();
 
+<<<<<<< HEAD
         gui = new GUI(800, 600, "Go Fish!");
+    }
+=======
+            GUI gui = new GUI(800, 600, "Go Fish!");
+
+
         }
+>>>>>>> e4fc05d4bd9f3e2aa4580d41f8677007af5a002b
 }

@@ -17,15 +17,6 @@ public abstract class Engine
         them = new Player();
     }
 
-    public Card draw(){
-       return deck.getCard(0);
-    }
-    public void shuffle(){
-
-    }
-    public void playCard(){
-        //put card from hand into play space
-    }
     public void passTurn(){
         //change actitive player
         us.setActive(!us.getActive());
@@ -44,6 +35,8 @@ public abstract class Engine
     public Player getThem() {
         return them;
     }
+
+    public abstract void setupGame();
 }
 
 

@@ -30,5 +30,11 @@ public class Card {
     public Suit getSuit() {
         return suit;
     }
+
+    @Override
+    public String toString()
+    {
+        return this.getType().name() + " of " + this.getSuit().name();
+    }
 }
 

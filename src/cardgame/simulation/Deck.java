@@ -13,7 +13,9 @@ import java.io.IOException;
  * Created by andersonc12 on 3/1/2016.
  */
 public class Deck {
-    Pile<Card> contents;
+    private Pile<Card> contents;
+
+    private int cardHeight, cardWidth;
 
     public Deck(){
         contents = new Pile<>();
@@ -32,15 +34,11 @@ public class Deck {
         //do this 10000 times
         for(int i = 0; i < 10000; i++)
         {
-            System.out.println("Start of loop");
             int cardNum = (int) (Math.random() * contents.getLength());
-            System.out.println("Card num: " + cardNum);
-            System.out.println("before remove: " + contents.getLength());
             Card c = contents.remove(cardNum);
-            System.out.println("After remove: " + contents.getLength());
             contents.add(c);
-            System.out.println("Back to " + contents.getLength());
         }
+
     }
 
     private void loadCards()
@@ -52,6 +50,7 @@ public class Deck {
         {
             if(f.isDirectory()) continue;
 
+            if(!f.getName().endsWith(".jpg")) continue;
             //get name of file without extension
             String name = f.getName().replace(".jpg", "");
 
@@ -67,6 +66,9 @@ public class Deck {
             Image image;
             try{
                 image = ImageIO.read(f);
+                image = image.getScaledInstance((int) (image.getWidth(null) * 0.5), (int) (image.getHeight(null) * 0.5), Image.SCALE_SMOOTH);
+                this.cardHeight = image.getHeight(null);
+                this.cardWidth = image.getWidth(null);
             }
             catch (IOException e)
             {
@@ -82,13 +84,24 @@ public class Deck {
         System.out.println("Loaded " + this.contents.getLength() + " cards");
     }
 
-    public Card getCard(int index)
+    public Card removeCard(int index)
     {
-        return this.contents.getEntry(index);
+        Card c = this.contents.remove(index);
+
+        System.out.println("removing " + c);
+        return c;
     }
 
     public int getSize()
     {
         return this.contents.getLength();
+    }
+
+    public int getCardHeight() {
+        return cardHeight;
+    }
+
+    public int getCardWidth() {
+        return cardWidth;
     }
 }
