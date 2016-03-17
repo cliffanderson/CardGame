@@ -17,6 +17,7 @@ public class Player
     }
     public void playCard(Card card){
         hand.remove(card);
+        System.out.println("Card Played");
     }
 
     public ArrayList<Card> getHand()

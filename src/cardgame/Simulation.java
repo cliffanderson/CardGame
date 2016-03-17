@@ -19,21 +19,12 @@ import java.util.ArrayList;
     public class Simulation
     {
         public static Simulation instance;
-        private Engine game;
     private static GUI gui;
-
-    public GUI getGui() {
-        return gui;
-    }
+        private Engine game;
 
         public Simulation()
         {
             this.game = new GoFish();
-        }
-
-        public Engine getGame()
-        {
-            return this.game;
         }
 
         public static void main(String[] args)
@@ -42,5 +33,14 @@ import java.util.ArrayList;
         Simulation.instance.game.setupGame();
 
         gui = new GUI(800, 600, "Go Fish!");
+        }
+
+    public GUI getGui() {
+        return gui;
+    }
+
+        public Engine getGame()
+        {
+            return this.game;
         }
 }

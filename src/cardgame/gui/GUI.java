@@ -70,10 +70,11 @@ public class GUI
 
 
                     //draw our cards
-                    numCards = Simulation.instance.getGame().getUs().getHand().size();
-                    //System.out.println(numCards);
-                    for (int i = 0; i < numCards; i++) {
-                        Card card = Simulation.instance.getGame().getUs().getHand().get(i);
+                    Object[] cards = Simulation.instance.getGame().getUs().getHand().toArray();
+                    numCards = cards.length;
+
+                    for (int i = 0; i < cards.length; i++) {
+                        Card card = (Card) cards[i];
                         Image image = card.getImage();
                         int drawX = i * ((width / 2) / numCards); //Evenly separated on the left half of the screen
                         int drawY = height - image.getHeight(null); //draw at the bottom on the screen

@@ -1,5 +1,7 @@
 package cardgame.simulation;
 
+import cardgame.Simulation;
+
 /**
  * Created by planot on 3/1/2016.
  */
@@ -21,6 +23,19 @@ public abstract class Engine
         //change actitive player
         us.setActive(!us.getActive());
         them.setActive(!them.getActive());
+        GoFish gf = (GoFish) Simulation.instance.getGame();
+        if(getThem().getActive()) {
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            gf.requestmatch();
+        }
+
     }
 
     public Deck getDeck()
