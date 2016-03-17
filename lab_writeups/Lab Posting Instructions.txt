@@ -1,0 +1,8 @@
+
+Lab Posting Instructions
+
+-Powerpoint + Application + Write-up
+-For every file, include the names and group #
+-Don't post code in the powerpoint
+-Zip file only
+-Cite blocks of code if you use it from the internet.
