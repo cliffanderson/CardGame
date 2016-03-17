@@ -52,13 +52,17 @@ public class GUI
             public void run() {
 
                 Graphics g;
-                Font font = new Font("Times New Roman", Font.BOLD, 32);
+                Font deckFont = new Font("Times New Roman", Font.BOLD, 32);
+                Font messageFont = new Font("Times New Roman", Font.BOLD, 16);
                 while (Simulation.instance.getGame() != null) {
                     g = api.getGraphics();
-                    g.setFont(font);
 
                     //reset
                     g.drawImage(background, 0, 0, null);
+
+                    g.setColor(Color.RED);
+                    g.setFont(messageFont);
+                    g.drawString(Simulation.getMessage(), 50, 300);
 
                     //draw pile in middle
                     int x = width / 2 - defaultCardWidth / 2;
@@ -66,6 +70,7 @@ public class GUI
                     g.setColor(Color.black);
                     g.drawRect(x, y, defaultCardWidth, defaultCardHeight);
 
+                    g.setFont(deckFont);
                     g.drawString(String.valueOf(Simulation.instance.getGame().getDeck().getSize()), x + 37, y + 87);
 
 

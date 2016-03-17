@@ -1,73 +1,63 @@
 package cardgame;
 
 import cardgame.gui.GUI;
-import cardgame.simulation.Card;
 import cardgame.simulation.Engine;
 import cardgame.simulation.GoFish;
-import cardgame.simulation.card.Suit;
-import cardgame.simulation.card.Type;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by andersonc12 on 3/1/2016.
-<<<<<<< HEAD
- */
-public class Simulation
-{
-    public static Simulation instance;
-    private Engine game;
+        */
+    public class Simulation
+    {
+        public static Simulation instance;
     private static GUI gui;
+<<<<<<< HEAD
+        private Engine game;
+=======
+        private static String message = "Welcome to Go Fish! Please begin";
 
     public GUI getGui() {
         return gui;
     }
-
-    public Simulation()
-    {
-        this.game = new GoFish();
-    }
-
-    public Engine getGame()
-    {
-        return this.game;
-    }
-
-    public static void main(String[] args)
-=======
-        */
-    public class Simulation
->>>>>>> e4fc05d4bd9f3e2aa4580d41f8677007af5a002b
-    {
-        public static Simulation instance;
-        private Engine game;
+>>>>>>> 617457fabc2fe67bd5835b1964f4c6ec56e2d64b
 
         public Simulation()
         {
             this.game = new GoFish();
         }
 
+<<<<<<< HEAD
+=======
         public Engine getGame()
         {
             return this.game;
         }
 
+        public static void setMessage(String message)
+        {
+            Simulation.message = message;
+        }
+
+        public static String getMessage()
+        {
+            return Simulation.message;
+        }
+
+>>>>>>> 617457fabc2fe67bd5835b1964f4c6ec56e2d64b
         public static void main(String[] args)
         {
             Simulation.instance = new Simulation();
         Simulation.instance.game.setupGame();
 
-<<<<<<< HEAD
         gui = new GUI(800, 600, "Go Fish!");
-    }
-=======
-            GUI gui = new GUI(800, 600, "Go Fish!");
-
-
         }
->>>>>>> e4fc05d4bd9f3e2aa4580d41f8677007af5a002b
+
+    public GUI getGui() {
+        return gui;
+    }
+
+        public Engine getGame()
+        {
+            return this.game;
+        }
 }
