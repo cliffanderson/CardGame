@@ -50,6 +50,7 @@ public class Deck {
         {
             if(f.isDirectory()) continue;
 
+            if(!f.getName().endsWith(".jpg")) continue;
             //get name of file without extension
             String name = f.getName().replace(".jpg", "");
 

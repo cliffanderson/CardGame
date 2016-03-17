@@ -17,7 +17,7 @@ public class GUI
     //scaled default height and width
     private int defaultCardWidth, defaultCardHeight;
     private int width, height, numCards;
-    private Image blankCard;
+    private Image cardBack;
 
     public GUI(int width, int height, String title)
     {
@@ -30,8 +30,8 @@ public class GUI
 
         try
         {
-            blankCard = ImageIO.read(new File("resources/cardHolders/blankCard.png"));
-            blankCard = blankCard.getScaledInstance((int) (blankCard.getWidth(null) * 0.5), (int) (blankCard.getHeight(null) * 0.5), Image.SCALE_SMOOTH);
+            cardBack = ImageIO.read(new File("resources/cards/cardback.png"));
+            cardBack = cardBack.getScaledInstance(defaultCardWidth, defaultCardHeight, Image.SCALE_SMOOTH);
         }
         catch (IOException e)
         {
@@ -59,8 +59,8 @@ public class GUI
                     g.fillRect(0, 0, width, height);
 
                     //draw pile in middle
-                    int x = width / 2 - ((int) (defaultCardWidth * 0.5)) / 2;
-                    int y = height / 2 - ((int) (defaultCardHeight * 0.5)) / 2;
+                    int x = width / 2 - defaultCardWidth / 2;
+                    int y = height / 2 - defaultCardHeight / 2;
                     g.setColor(Color.black);
                     g.drawRect(x, y, defaultCardWidth, defaultCardHeight);
 
@@ -87,7 +87,7 @@ public class GUI
                         int drawX = i * ((width / 2) / numOpponentsCards);
                         int drawY = 0;
                        // g.drawImage(blankCard, drawX, drawY, null);
-                        g.drawImage(Simulation.instance.getGame().getThem().getHand().get(i).getImage(), drawX, drawY, null);
+                        g.drawImage(cardBack, drawX, drawY, null);
                     }
 
                     api.draw();
