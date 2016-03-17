@@ -2,6 +2,7 @@ package cardgame.gui;
 
 import cardgame.Simulation;
 import cardgame.simulation.Card;
+import cardgame.simulation.GoFish;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,7 +14,9 @@ import java.io.IOException;
  */
 public class GUI
 {
-    private int width, height, defaultCardWidth, defaultCardHeight;
+    //scaled default height and width
+    private int defaultCardWidth, defaultCardHeight;
+    private int width, height, numCards;
     private Image blankCard;
 
     public GUI(int width, int height, String title)
@@ -44,11 +47,10 @@ public class GUI
         new Thread() {
             @Override
             public void run() {
-                Simulation.instance.getGame().getUs().draw();
 
                 Graphics g;
                 Font font = new Font("Times New Roman", Font.BOLD, 32);
-                while (true) {
+                while (Simulation.instance.getGame() != null) {
                     g = api.getGraphics();
                     g.setFont(font);
 
@@ -60,13 +62,13 @@ public class GUI
                     int x = width / 2 - ((int) (defaultCardWidth * 0.5)) / 2;
                     int y = height / 2 - ((int) (defaultCardHeight * 0.5)) / 2;
                     g.setColor(Color.black);
-                    g.drawRect(x, y, (int) (defaultCardWidth), (int) (defaultCardHeight));
+                    g.drawRect(x, y, defaultCardWidth, defaultCardHeight);
 
                     g.drawString(String.valueOf(Simulation.instance.getGame().getDeck().getSize()), x + 37, y + 87);
 
 
                     //draw our cards
-                    int numCards = Simulation.instance.getGame().getUs().getHand().size();
+                    numCards = Simulation.instance.getGame().getUs().getHand().size();
                     //System.out.println(numCards);
                     for (int i = 0; i < numCards; i++) {
                         Card card = Simulation.instance.getGame().getUs().getHand().get(i);
@@ -93,9 +95,40 @@ public class GUI
                     try {
                         Thread.sleep(10);
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
         }.start();
+    }
+
+    public void handleClick(int x, int y)
+    {
+        //too high on the screen
+        if(y < height - defaultCardHeight)
+        {
+            return;
+        }
+
+        for(int i = 1; i < numCards; i++)
+        {
+            if(x < i * ((width / 2) / numCards))
+            {
+                int cardIndex = i - 1;
+                Card card = Simulation.instance.getGame().getUs().getHand().get(cardIndex);
+                GoFish gf = (GoFish) Simulation.instance.getGame();
+                gf.requestmatch(card);
+                return;
+            }
+        }
+
+        //one last check
+        if(x < (width/2 + defaultCardWidth/2))
+        {
+            int cardIndex = numCards - 1;
+            Card card = Simulation.instance.getGame().getUs().getHand().get(cardIndex);
+            GoFish gf = (GoFish) Simulation.instance.getGame();
+            gf.requestmatch(card);
+        }
     }
 }

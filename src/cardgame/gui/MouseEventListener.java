@@ -1,5 +1,7 @@
 package cardgame.gui;
 
+import cardgame.Simulation;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -9,7 +11,7 @@ import java.awt.event.MouseListener;
 public class MouseEventListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Click");
+        Simulation.instance.getGui().handleClick(e.getX(), e.getY());
     }
 
     @Override

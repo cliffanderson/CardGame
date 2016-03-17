@@ -20,6 +20,11 @@ public class Simulation
 {
     public static Simulation instance;
     private Engine game;
+    private static GUI gui;
+
+    public GUI getGui() {
+        return gui;
+    }
 
     public Simulation()
     {
@@ -36,8 +41,6 @@ public class Simulation
         Simulation.instance = new Simulation();
         Simulation.instance.game.setupGame();
 
-        GUI gui = new GUI(800, 600, "Go Fish!");
-
-
+        gui = new GUI(800, 600, "Go Fish!");
     }
 }
