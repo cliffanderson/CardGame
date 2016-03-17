@@ -34,6 +34,7 @@ import java.util.ArrayList;
         public static void main(String[] args)
         {
             Simulation.instance = new Simulation();
+        Simulation.instance.game.setupGame();
 
             GUI gui = new GUI(800, 600, "Go Fish!");
 

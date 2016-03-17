@@ -8,10 +8,13 @@ public class GoFish extends Engine
     public GoFish()
     {
         super();
-            shuffle();
+    }
+
+    public void setupGame()
+    {
         for(int i=0; i<7; i++) {
-            getUs().getHand().add(super.draw());
-            getThem().getHand().add(super.draw());
+            getUs().draw();
+            getThem().draw();
         }
     }
 
@@ -27,7 +30,7 @@ public class GoFish extends Engine
 
         //if clicked card does not exist in nonactive hand, active player draws a card and passes the turn
         else if(!getThem().getHand().contains(ChosenCard)){
-            getUs().getHand().add(super.draw());
+            getUs().draw();
             passTurn();
         }
     }

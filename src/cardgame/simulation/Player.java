@@ -3,6 +3,8 @@ package cardgame.simulation;
 import cardgame.Simulation;
 import cardgame.adt.TeamLinkedBag;
 
+import java.util.ArrayList;
+
 /**
  * Created by andersonc12 on 3/1/2016.
  */
@@ -11,20 +13,21 @@ public class Player
     public Player()
     {
         activeplayer=false;
-        hand = new TeamLinkedBag<Card>();
+        hand = new ArrayList<Card>();
     }
     public void playCard(){
         //put card from hand into play space
     }
 
-    public TeamLinkedBag<Card> getHand()
+    public ArrayList<Card> getHand()
     {
         return hand;
     }
 
     public void draw()
     {
-        hand.add(Simulation.instance.getGame().getDeck().removeCard(0));
+        Card c = Simulation.instance.getGame().getDeck().removeCard(0);
+        hand.add(c);
     }
 
     public void setActive(boolean newState)
@@ -37,6 +40,6 @@ public class Player
         return activeplayer;
     }
 
-    private TeamLinkedBag<Card> hand;
+    private ArrayList<Card> hand;
     private boolean activeplayer;
 }

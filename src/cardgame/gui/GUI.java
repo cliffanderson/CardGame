@@ -22,8 +22,8 @@ public class GUI
         this.width = width;
         this.height = height;
 
-        this.defaultCardHeight = Simulation.instance.getGame().getDeck().removeCard(0).getImage().getHeight(null);
-        this.defaultCardWidth =  Simulation.instance.getGame().getDeck().removeCard(0).getImage().getWidth(null);
+        this.defaultCardHeight = Simulation.instance.getGame().getDeck().getCardHeight();
+        this.defaultCardWidth =  Simulation.instance.getGame().getDeck().getCardWidth();
 
         try
         {
@@ -66,10 +66,10 @@ public class GUI
 
 
                     //draw our cards
-                    int numCards = Simulation.instance.getGame().getUs().getHand().getCurrentSize();
-
+                    int numCards = Simulation.instance.getGame().getUs().getHand().size();
+                    //System.out.println(numCards);
                     for (int i = 0; i < numCards; i++) {
-                        Card card = Simulation.instance.getGame().getUs().getHand().
+                        Card card = Simulation.instance.getGame().getUs().getHand().get(i);
                         Image image = card.getImage();
                         int drawX = i * ((width / 2) / numCards); //Evenly separated on the left half of the screen
                         int drawY = height - image.getHeight(null); //draw at the bottom on the screen
@@ -78,13 +78,14 @@ public class GUI
 
 
                     //draw opponent's cards
-                    int numOpponentsCards = Simulation.instance.getGame().getThem().getHand().getCurrentSize();
-
+                    int numOpponentsCards = Simulation.instance.getGame().getThem().getHand().size();
+                    //System.out.println(numOpponentsCards);
                     for(int i = 0; i < numOpponentsCards; i++)
                     {
                         int drawX = i * ((width / 2) / numOpponentsCards);
                         int drawY = 0;
-                        g.drawImage(blankCard, drawX, drawY, null);
+                       // g.drawImage(blankCard, drawX, drawY, null);
+                        g.drawImage(Simulation.instance.getGame().getThem().getHand().get(i).getImage(), drawX, drawY, null);
                     }
 
                     api.draw();
