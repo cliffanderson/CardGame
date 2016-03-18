@@ -1,5 +1,7 @@
 package cardgame.simulation;
 
+import cardgame.Simulation;
+
 /**
  * Created by planot on 3/1/2016.
  */
@@ -20,7 +22,15 @@ public class GoFish extends Engine
 
     public void requestmatch(Card ChosenCard)
     {
-        if (getUs().getActive()==true) {
+
+        Simulation.setMessage("Do you have any " + ChosenCard.getType()+ "'s");
+        //sleep loop
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (getUs().getActive()) {
             //called by clicker
             //if clicked card also exists in hand of non active player remove both from each players hand and play
             //then in front of acive player: active player retains status as active player
@@ -34,36 +44,31 @@ public class GoFish extends Engine
                 }
             }
 
-            if (match == true) {
+            if (match) {
+                Simulation.setMessage("Congrats, you made a match with " + ChosenCard.getType());
                 getUs().playCard(ChosenCard);
                 getThem().playCard(getThem().getHand().get(MatchingCardID));
             }
 
             //if clicked card does not exist in nonactive hand, active player draws a card and passes the turn
-            else {
+            if (!match) {
+                Simulation.setMessage("Sorry, no " + ChosenCard.getType()+ "'s");
                 getUs().draw();
-                Card c, d;
-
-                checker: for (int i=0;i<getUs().getHand().size();i++){
-                    c=getUs().getHand().get(i);
-                    for (int j=i+1;j<getUs().getHand().size();j++){
-                        d=getUs().getHand().get(j);
-                        if (c.getType().getValue()==d.getType().getValue()){
-                            getUs().getHand().remove(c);
-                            getUs().getHand().remove(d);
-                            break checker;
-
-                        }
-
-                    }
-                }
                 passTurn();
             }
         }
     }
     public void requestmatch() {
-        if (getThem().getActive()==true){
+        if (getThem().getActive()){
+
             Card Randomchioce=getThem().getHand().get((int)(Math.random()*getThem().getHand().size()));
+            Simulation.setMessage("Do you have any " + Randomchioce.getType()+ "'s");
+            //sleep loop
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             boolean match2 = false;
             int MatchingCardID2 = 0;
             for (int j = 0; j < getUs().getHand().size(); j++) {
@@ -73,30 +78,15 @@ public class GoFish extends Engine
                     break;
                 }
             }
-            if (match2 == true) {
+            if (match2) {
+                Simulation.setMessage("Computer has made a match with " + Randomchioce.getType());
                 getThem().playCard(Randomchioce);
                 getUs().playCard(getUs().getHand().get(MatchingCardID2));
+                AIhandle();
             }
-
-            //if clicked card does not exist in nonactive hand, active player draws a card and passes the turn
-            else {
+            else{                //if clicked card does not exist in nonactive hand, active player draws a card and passes the turn
+               Simulation.setMessage("Sorry, no " + Randomchioce.getType()+ "'s");
                 getThem().draw();
-
-                Card c, d;
-                checker: for (int i=0;i<getThem().getHand().size();i++){
-                    c=getThem().getHand().get(i);
-                    for (int j=i+1;j<getThem().getHand().size();j++){
-                        d=getThem().getHand().get(j);
-                        if (c.getType().getValue()==d.getType().getValue()){
-                            getThem().getHand().remove(c);
-                            getThem().getHand().remove(d);
-                            break checker;
-
-                        }
-
-                    }
-                }
-
                 passTurn();
             }
         }

@@ -23,6 +23,9 @@ public abstract class Engine
         //change actitive player
         us.setActive(!us.getActive());
         them.setActive(!them.getActive());
+        AIhandle();
+    }
+    public void AIhandle(){
         GoFish gf = (GoFish) Simulation.instance.getGame();
         if(getThem().getActive()) {
             try
@@ -35,7 +38,6 @@ public abstract class Engine
             }
             gf.requestmatch();
         }
-
     }
 
     public Deck getDeck()

@@ -17,7 +17,6 @@ public class Player
     }
     public void playCard(Card card){
         hand.remove(card);
-        System.out.println("Card Played");
     }
 
     public ArrayList<Card> getHand()
@@ -29,6 +28,20 @@ public class Player
     {
         Card c = Simulation.instance.getGame().getDeck().removeCard(0);
         hand.add(c);
+        Card e, d;
+                checker: for (int i=0;i<this.getHand().size();i++){
+                    e=this.getHand().get(i);
+                    for (int j=i+1;j<this.getHand().size();j++){
+                        d=this.getHand().get(j);
+                        if (e.getType().getValue()==d.getType().getValue()){
+                            this.getHand().remove(e);
+                            this.getHand().remove(d);
+                            break checker;
+
+                        }
+
+            }
+        }
         return c;
     }
 

@@ -60,7 +60,7 @@ public class GUI
                     //reset
                     g.drawImage(background, 0, 0, null);
 
-                    g.setColor(Color.RED);
+                    g.setColor(Color.BLACK);
                     g.setFont(messageFont);
                     g.drawString(Simulation.getMessage(), 50, 300);
 
@@ -68,10 +68,10 @@ public class GUI
                     int x = width / 2 - defaultCardWidth / 2;
                     int y = height / 2 - defaultCardHeight / 2;
                     g.setColor(Color.black);
-                    g.drawRect(x, y, defaultCardWidth, defaultCardHeight);
+                    g.drawImage(cardBack, x, y, null);
 
                     g.setFont(deckFont);
-                    g.drawString(String.valueOf(Simulation.instance.getGame().getDeck().getSize()), x + 37, y + 87);
+                    //g.drawString(String.valueOf(Simulation.instance.getGame().getDeck().getSize()), x + 37, y + 87);
 
 
                     //draw our cards
@@ -94,7 +94,7 @@ public class GUI
                     {
                         int drawX = i * ((width / 2) / numOpponentsCards);
                         int drawY = 0;
-                       // g.drawImage(blankCard, drawX, drawY, null);
+                        //g.drawImage(Simulation.instance.getGame().getThem().getHand().get(i).getImage(), drawX, drawY, null);
                         g.drawImage(cardBack, drawX, drawY, null);
                     }
 
